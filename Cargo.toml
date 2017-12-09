@@ -1,0 +1,6 @@
+[package]
+name = "pantau-wifi-rumah"
+version = "0.1.0"
+authors = ["Adit Cahya Ramadhan <matematika.adit@gmail.com>"]
+
+[dependencies]
