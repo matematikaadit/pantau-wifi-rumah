@@ -1,0 +1,12 @@
+[global]
+# Router login setting
+router_host = "192.168.1.1"
+router_username = "REPLACE_IT_WITH_ACTUAL_USERNAME"
+router_password = "REPLACE_IT_WITH_ACTUAL_PASSWORD"
+
+# Webapp login setting
+token_username = "REPLACE_IT_WITH_ANYTHING_YOU_WANT"
+token_password = "REPLACE_IT_WITH_ANYTHING_YOU_WANT"
+
+# Others
+port = 9000

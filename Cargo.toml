@@ -4,3 +4,13 @@ version = "0.1.0"
 authors = ["Adit Cahya Ramadhan <matematika.adit@gmail.com>"]
 
 [dependencies]
+reqwest = "0.8.1"
+regex = "0.2"
+rocket = "0.3.3"
+rocket_codegen = "0.3.3"
+lazy_static = "0.2"
+
+[dependencies.rocket_contrib]
+version = "0.3.3"
+default-features = false
+features = ["handlebars_templates"]
