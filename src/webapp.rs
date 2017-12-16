@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::sync::Mutex;
 
 use rocket::fairing::{AdHoc, Fairing};
 use rocket::http::{Cookie, Cookies};
@@ -7,7 +8,11 @@ use rocket::request::{self, Form, FlashMessage, FromRequest, Request};
 use rocket::response::{Redirect, Flash};
 use rocket::{self, Rocket, State};
 use rocket_contrib::Template;
+use rusqlite::types::ToSql;
 use router;
+use database;
+
+type Db = Mutex<database::Db>;
 
 #[derive(FromForm)]
 struct Login {
@@ -70,11 +75,20 @@ fn login_page(flash: Option<FlashMessage>) -> Template {
 }
 
 #[get("/")]
-fn dashboard(_token: Token, config: State<router::Config>) -> Template {
-    // TODO: remove this unwrap
-    let mac_addresses = router::run(&config).unwrap();
+fn dashboard(_token: Token,
+             config: State<router::Config>,
+             db: State<Db>) -> Template {
+    let mac_addresses = router::run(&config).unwrap_or(Vec::new());
+    let mut arguments = Vec::with_capacity(mac_addresses.len());
+    for mac in &mac_addresses {
+        arguments.push(mac as &ToSql);
+    }
+
     let mut ctx = HashMap::new();
-    ctx.insert("mac_addresses", mac_addresses);
+    let db = db.lock().expect("Db connection");
+
+    let vec = db.query(&arguments);
+    ctx.insert("items", vec);
     Template::render("index", &ctx)
 }
 
@@ -95,12 +109,14 @@ fn fairing() -> impl Fairing {
         }
     }
     AdHoc::on_attach(|rocket| {
+        // app config
         let (token_username, rocket) = get_config(rocket, "token_username")?;
         let (token_password, rocket) = get_config(rocket, "token_password")?;
         let config = Config {
             username: token_username,
             password: token_password,
         };
+        // router config
         let (router_host, rocket) = get_config(rocket, "router_host")?;
         let (router_username, rocket) = get_config(rocket, "router_username")?;
         let (router_password, rocket) = get_config(rocket, "router_password")?;
@@ -109,9 +125,13 @@ fn fairing() -> impl Fairing {
             username: router_username,
             password: router_password,
         };
+        // db config
+        let (db_file, rocket) = get_config(rocket, "db_file")?;
+        let db = database::Db::new(&db_file);
         Ok(rocket
            .manage(config)
-           .manage(router_config))
+           .manage(router_config)
+           .manage(Mutex::new(db)))
     })
 }
 

@@ -1,19 +1,35 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width" />
-      <title>Pantau Wifi Rumah</title>
-   </head>
-   <body>
-      <h1>Perangkat Tersambung</h1>
-      <ul>
-      {{#each mac_addresses}}
-        <li>{{this}}</li>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Pantau Wifi Rumah</title>
+    <style type="text/css" media="screen">
+     table {
+       border-collapse:collapse;
+       border:1px solid black;
+     }
+     table td, table th { border:1px solid black; }
+     table td:nth-child(2) { text-align: center; }
+    </style>
+  </head>
+  <body>
+    <h1>Perangkat Tersambung</h1>
+    {{#if items}}
+    <table>
+      <tr><th>MAC</th><th>Pemilik</th></tr>
+      {{#each items}}
+        <tr>
+          <td>{{mac}}</td>
+          <td>{{#if owner}}{{owner}}{{else}}-{{/if}}</td></tr>
       {{/each}}
-      </ul>
-      <form action="/logout" method="post" accept-charset="utf-8">
-         <input type="submit" name="logout" id="logout" value="logout" />
-      </form>
-   </body>
+    </table>
+    {{else}}
+    <p>Tidak ada perangkat tersambung</p>
+    {{/if}}
+
+    <form action="/logout" method="post" accept-charset="utf-8">
+      <input type="submit" name="logout" id="logout" value="logout" />
+    </form>
+  </body>
 </html>

@@ -8,5 +8,8 @@ router_password = "REPLACE_IT_WITH_ACTUAL_PASSWORD"
 token_username = "REPLACE_IT_WITH_ANYTHING_YOU_WANT"
 token_password = "REPLACE_IT_WITH_ANYTHING_YOU_WANT"
 
+# Database filename
+db_file = "known.db"
+
 # Others
 port = 9000
