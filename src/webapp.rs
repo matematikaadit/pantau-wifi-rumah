@@ -9,7 +9,6 @@ use rocket::request::{self, Form, FlashMessage, FromRequest, Request};
 use rocket::response::{Flash, NamedFile, Redirect};
 use rocket::{self, Rocket, State};
 use rocket_contrib::Template;
-use rusqlite::types::ToSql;
 use router;
 use database;
 
@@ -80,15 +79,11 @@ fn dashboard(_token: Token,
              config: State<router::Config>,
              db: State<Db>) -> Template {
     let mac_addresses = router::run(&config).unwrap_or(Vec::new());
-    let mut arguments = Vec::with_capacity(mac_addresses.len());
-    for mac in &mac_addresses {
-        arguments.push(mac as &ToSql);
-    }
 
     let mut ctx = HashMap::new();
     let db = db.lock().expect("Db connection");
 
-    let vec = db.query(&arguments);
+    let vec = db.query(&mac_addresses);
     ctx.insert("items", vec);
     Template::render("index", &ctx)
 }
