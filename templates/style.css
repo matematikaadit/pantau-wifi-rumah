@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
+
+body {
+  font-family: "Roboto Slab";
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+h1 {
+  font-size: 16pt;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+table {
+  border-collapse:collapse;
+  border:1px solid black;
+  margin: 2em 0;
+}
+
+table th { text-transform: uppercase; }
+
+table td, table th {
+  border: 1px solid black;
+  padding: 5px 10px;
+}
+
+table td:nth-child(1) {
+  font-family: monospace;
+  font-size: 9pt;
+}
+
+table td:nth-child(2) { text-align: center; }

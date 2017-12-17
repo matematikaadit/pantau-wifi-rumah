@@ -4,14 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Pantau Wifi Rumah</title>
-    <style type="text/css" media="screen">
-     table {
-       border-collapse:collapse;
-       border:1px solid black;
-     }
-     table td, table th { border:1px solid black; }
-     table td:nth-child(2) { text-align: center; }
-    </style>
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen" />
   </head>
   <body>
     <h1>Perangkat Tersambung</h1>
@@ -21,7 +14,8 @@
       {{#each items}}
         <tr>
           <td>{{mac}}</td>
-          <td>{{#if owner}}{{owner}}{{else}}-{{/if}}</td></tr>
+          <td>{{#if owner}}{{owner}}{{else}}-{{/if}}</td>
+        </tr>
       {{/each}}
     </table>
     {{else}}

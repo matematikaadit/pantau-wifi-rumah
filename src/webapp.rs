@@ -1,11 +1,12 @@
 use std::collections::HashMap;
 use std::sync::Mutex;
+use std::io;
 
 use rocket::fairing::{AdHoc, Fairing};
 use rocket::http::{Cookie, Cookies};
 use rocket::outcome::IntoOutcome;
 use rocket::request::{self, Form, FlashMessage, FromRequest, Request};
-use rocket::response::{Redirect, Flash};
+use rocket::response::{Flash, NamedFile, Redirect};
 use rocket::{self, Rocket, State};
 use rocket_contrib::Template;
 use rusqlite::types::ToSql;
@@ -97,6 +98,11 @@ fn dashboard_no_token() -> Redirect {
     Redirect::to("/login")
 }
 
+#[get("/style.css")]
+fn stylesheet() -> io::Result<NamedFile> {
+    NamedFile::open("templates/style.css")
+}
+
 fn fairing() -> impl Fairing {
     fn get_config(rocket: Rocket, name: &str)
                   -> Result<(String, Rocket), Rocket> {
@@ -140,6 +146,7 @@ pub fn rocket() -> Rocket {
         .attach(Template::fairing())
         .attach(fairing())
         .mount("/", routes![
+            stylesheet,
             dashboard,
             dashboard_no_token,
             login,

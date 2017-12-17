@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width" />
-      <title>Login: Pantau Wifi Rumah</title>
-   </head>
-   <body>
-      <h1>Login</h1>
-      {{#if flash}}
-         <p>{{ flash }}</p>
-      {{else}}
-         <p>Harap login untuk melanjutkan.</p>
-      {{/if}}
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Login: Pantau Wifi Rumah</title>
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <h1>Login</h1>
+    <h3>Pantau Wifi Rumah</h3>
+    {{#if flash}}
+      <p>{{ flash }}</p>
+    {{else}}
+      <p>Harap login untuk melanjutkan.</p>
+    {{/if}}
 
-      <form action="/login" method="post" accept-charset="utf-8">
-         <label for="username">username</label><br>
-         <input type="text" name="username" id="username" value="" /><br>
-         <label for="password">password</label><br>
-         <input type="password" name="password" id="password" value="" /><br>
-         <p><input type="submit" value="login"></p>
-      </form>
-   </body>
+    <form action="/login" method="post" accept-charset="utf-8">
+      <label for="username">username</label><br>
+      <input type="text" name="username" id="username" value="" /><br>
+      <label for="password">password</label><br>
+      <input type="password" name="password" id="password" value="" /><br>
+      <p><input type="submit" value="login"></p>
+    </form>
+  </body>
 </html>
